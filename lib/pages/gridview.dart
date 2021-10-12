@@ -8,6 +8,7 @@ class GridViewScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Màn Hình Chính'),
+        
       ),
     );
   }

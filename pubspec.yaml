@@ -49,6 +49,9 @@ flutter:
     - family: Signatra
       fonts:
         - asset: assets/fonts/Signatra.ttf
+    - family: Festive
+      fonts:
+        - asset: assets/fonts/Festive-Regular.ttf
   assets:
     - assets/images/google_signin_button.png
     - assets/images/upload.svg
