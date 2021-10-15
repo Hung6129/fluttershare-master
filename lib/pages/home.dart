@@ -2,6 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:fluttershare/constrants.dart';
+import 'package:fluttershare/pages/activity_feed.dart';
+import 'package:fluttershare/pages/profile.dart';
+import 'package:fluttershare/pages/search.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 final GoogleSignIn googleSignIn = GoogleSignIn();
@@ -12,8 +15,38 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  bool isAuth = false;
+  bool isAuth = true;
+  PageController pageController;
+  int pageIndex = 0;
 
+  @override
+  void initState() {
+    super.initState();
+    pageController = PageController(initialPage: 1);
+  }
+
+  @override
+  void dispose() {
+    pageController.dispose();
+    super.dispose();
+  }
+  //drawer
+  // Scaffold openDrawer() {
+  //   return Scaffold(
+  //     drawer: Drawer(
+  //       child: ListView(
+  //         children: [
+  //           DrawerHeader(
+  //             child: null,
+  //           ),
+  //           ListTile()
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
+
+  //google sign in
   // @override
   // void initState() {
   //   super.initState();
@@ -51,25 +84,46 @@ class _HomeState extends State<Home> {
   // logout() {
   //   googleSignIn.signOut();
   // }
+  onPageChanged(int pageIndex) {
+    setState(() {
+      this.pageIndex = pageIndex;
+    });
+  }
+
+  onTap(int pageIndex) {
+    pageController.jumpToPage(pageIndex);
+  }
 
   Scaffold buildAuthScreen() {
     return Scaffold(
-        // appBar: AppBar(
-        //   titleTextStyle: TextStyle(
-        //     fontFamily: 'Festive',
-        //     fontSize: 50.0,
-        //     color: color2,
-        //   ),
-        //   backgroundColor: color4,
-        //   bottomOpacity: 50.0,
-        // ),
-        body: TextField(
-      decoration: InputDecoration(
-          icon: Icon(
-        Icons.search,
-        color: color3,
-      )),
-    ));
+      body: PageView(
+        children: <Widget>[
+          ActivityFeed(),
+          Search(),
+          Profile(),
+        ],
+        controller: pageController,
+        onPageChanged: onPageChanged,
+        physics: NeverScrollableScrollPhysics(),
+      ),
+      bottomNavigationBar: CupertinoTabBar(
+        currentIndex: pageIndex = 1,
+        onTap: onTap,
+        activeColor: color3,
+        items: [
+          BottomNavigationBarItem(
+            backgroundColor: color4,
+            icon: Icon(Icons.featured_play_list),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.people),
+          ),
+        ],
+      ),
+    );
   }
 
   Scaffold buildUnAuthScreen() {
@@ -78,9 +132,10 @@ class _HomeState extends State<Home> {
         decoration: BoxDecoration(
           color: color4,
           gradient: LinearGradient(
-              begin: Alignment.topRight,
-              end: Alignment.bottomLeft,
-              colors: [color5, color3]),
+            begin: Alignment.topRight,
+            end: Alignment.bottomLeft,
+            colors: [color5, color3],
+          ),
         ),
         alignment: Alignment.center,
         child: Column(
@@ -89,21 +144,14 @@ class _HomeState extends State<Home> {
           children: <Widget>[
             Column(
               children: [
-                // Text(
-                //   'Chào mừng bạn đến với',
-                //   style: TextStyle(color: colorBlack, fontSize: 20.0),
-                // ),
                 Text(
                   "Thuốc Me",
                   style: TextStyle(
-                      fontSize: 50.0,
-                      color: Color(0xFF5db075),
-                      fontFamily: "Signatra"),
+                    fontSize: 50.0,
+                    color: Color(0xFF5db075),
+                    fontFamily: "Signatra",
+                  ),
                 ),
-                // Text(
-                //   "Chạm để tiếp tục",
-                //   style: TextStyle(fontSize: 15.0, color: color1),
-                // ),
                 GestureDetector(
                   onTap: () {},
                   // login
@@ -113,7 +161,8 @@ class _HomeState extends State<Home> {
                     decoration: BoxDecoration(
                       image: DecorationImage(
                         image: AssetImage(
-                            'assets/images/google_signin_button.png'),
+                          'assets/images/google_signin_button.png',
+                        ),
                         fit: BoxFit.cover,
                       ),
                     ),
