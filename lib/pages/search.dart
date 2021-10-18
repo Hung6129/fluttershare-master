@@ -1,3 +1,5 @@
+// import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:fluttershare/constrants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -10,12 +12,17 @@ class Search extends StatefulWidget {
 }
 
 class _SearchState extends State<Search> {
-  @override
-  void initState() {
-    // getData();
-    // getDataById();
-    super.initState();
-  }
+  // final List<String> _girdItems = [
+  //   'assets/images/band_aid.png',
+  //   'assets/images/cocaine.png',
+  //   'assets/images/heroin.png',
+  //   'assets/images/para.png',
+  // ];
+  // void initState() {
+  //   // getData();
+  //   // getDataById();
+  //   super.initState();
+  // }
 
   //fetch data with filter
   // getData() async {
@@ -51,12 +58,39 @@ class _SearchState extends State<Search> {
   //   });
   // }
 
+  AppBar searchFile() {
+    return AppBar(
+      backgroundColor: color4,
+      title: TextFormField(
+        decoration: InputDecoration(
+          border: new OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30),
+          ),
+          hintText: "Nhập thuốc cần tìm...",
+          filled: true,
+          prefixIcon: Icon(
+            Icons.search,
+            size: 28.0,
+          ),
+          suffixIcon: IconButton(
+            icon: Icon(Icons.clear),
+            onPressed: () {},
+          ),
+        ),
+      ),
+    );
+  }
+
+  gridDisplay() {
+    
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: color5,
-      ),
+      backgroundColor: color4,
+      appBar: searchFile(),
+      body: gridDisplay(),
     );
   }
 }
